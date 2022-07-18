@@ -1,0 +1,19 @@
+{
+  "name": "todo-api",
+  "version": "0.0.0",
+  "description": "Simple todo list API built with Azure Functions and Node.js.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "func start",
+    "prerelease:check": "semantic-release --dry-run"
+  },
+  "devDependencies": {
+    "semantic-release": "^19.0.3",
+    "semantic-release-node-prep": "^3.0.0"
+  },
+  "release": {
+    "extends": "semantic-release-node-prep",
+    "branches": "main"
+  }
+}
