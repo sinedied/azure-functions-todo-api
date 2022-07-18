@@ -2,3 +2,4 @@ node_modules
 local.settings.json
 dist
 .DS_Store
+package.zip
