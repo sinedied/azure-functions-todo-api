@@ -22,7 +22,7 @@ jobs:
       - run: cd api && npm ci
         env:
           CI: true
-      - run: npx semantic-release
+      - run: cd api && npx semantic-release
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
