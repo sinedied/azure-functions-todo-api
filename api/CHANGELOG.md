@@ -1,3 +1,5 @@
+## [1.0.1](https://github.com/sinedied/azure-functions-todo-api/compare/1.0.0...1.0.1) (2022-07-19)
+
 # 1.0.0 (2022-07-19)
 
 ### Features
