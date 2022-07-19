@@ -1,6 +1,6 @@
 {
   "name": "todo-api",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Simple todo list API built with Azure Functions and Node.js.",
   "type": "module",
   "private": true,
