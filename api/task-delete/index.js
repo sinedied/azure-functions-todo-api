@@ -1,4 +1,4 @@
-import { deleteTask } from '../api/common/tasks.js';
+import { deleteTask } from '../common/tasks.js';
 
 export default async function (context, req) {
   const headers = { 'Content-Type': 'application/json' };

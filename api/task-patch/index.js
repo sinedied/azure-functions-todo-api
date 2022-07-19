@@ -1,4 +1,4 @@
-import { updateTask } from '../api/common/tasks.js';
+import { updateTask } from '../common/tasks.js';
 
 export default async function (context, req) {
   const headers = { 'Content-Type': 'application/json' };

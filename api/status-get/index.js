@@ -8,7 +8,6 @@ export default async function (context, _req) {
   context.log(`Retrieved server stats`);
 
   return {
-    type: 'application/json',
     body: `${pkg.name} v${pkg.version} - ${stats.userCount} user(s), ${stats.taskCount} task(s)`
   };
 }
