@@ -1,0 +1,16 @@
+// For format details, see https://aka.ms/devcontainer.json
+{
+	"name": "Azure Builder",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-azuretools.vscode-bicep",
+				"ms-azuretools.vscode-docker"
+			]
+		}
+	},
+	"remoteUser": "vscode"
+}
