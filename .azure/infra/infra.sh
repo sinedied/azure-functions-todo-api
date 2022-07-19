@@ -37,7 +37,7 @@ elif [ "$1" == "up" ]; then
     --resource-group ${resource_group_name} \
     --template-file main.bicep \
     --name "deployment-${project_name}-${environment}-${location}" \
-    --parameters project_name=${project_name} \
+    --parameters projectName=${project_name} \
         environment=${environment} \
         location=${location} \
     --query properties.outputs \
