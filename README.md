@@ -23,7 +23,7 @@ Make sure you have [Node.js](https://nodejs.org) and [Azure Functions Core Tools
 
 ## Deploying on Azure
 
-You neeed an [Azure account](https://azure.microsoft.com/free/?WT.mc_id=javascript-0000-yolasors), [Azure CLI](https://aka.ms/tools/azure-cli) and [GitHub CLI](https://cli.github.com) installed.
+You need an [Azure account](https://azure.microsoft.com/free/?WT.mc_id=javascript-0000-yolasors), [Azure CLI](https://aka.ms/tools/azure-cli) and [GitHub CLI](https://cli.github.com) installed.
 
 1. Run `.azure/setup.sh`. That's it!
 
