@@ -37,9 +37,11 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Create infrastructure
+      - if: ${{ env.HAS_SECRETS }}
+        name: Create infrastructure
         run: cd .azure/infra && ./infra.sh up ${{ env.APP_NAME }}
-      - name: Deploy project
+      - if: ${{ env.HAS_SECRETS }}
+        name: Deploy project
         run: cd .azure && ./deploy.sh
 
       # TODO: get app name exported from infra.sh
