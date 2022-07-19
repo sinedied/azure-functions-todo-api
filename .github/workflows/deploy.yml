@@ -18,11 +18,11 @@ jobs:
       - name: Check setup
         run: |
           if [ ! -z "${AZURE_CREDENTIALS}" ]; then
-            echo "HAS_SECRETS=true" >> "$GITHUB_ENV"
+            echo "CANCEL_DEPLOY=true" >> "$GITHUB_ENV"
           fi
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      - if: ${{ env.HAS_SECRETS }}
+      - if: ${{ env.CANCEL_DEPLOY }}
         uses: andymckay/cancel-action@0.2
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
