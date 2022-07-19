@@ -1,0 +1,50 @@
+name: Deploy on Azure
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  APP_NAME: todo-api
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '16.x'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci
+        env:
+          CI: true
+      - run: npx semantic-release
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check setup
+        run: |
+          if [ ! -z "${AZURE_CREDENTIALS}" ]; then
+            echo "HAS_SECRETS=true" >> "$GITHUB_ENV"
+          fi
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      - if: ${{ env.HAS_SECRETS }}
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Create infrastructure
+        run: cd .azure/infra && ./infra.sh up ${{ env.APP_NAME }}
+      - name: Deploy project
+        run: cd .azure && ./deploy.sh
+
+      # TODO: get app name exported from infra.sh
+      # - uses: Azure/functions-action@v1
+      #   with:
+      #     app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+      #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
