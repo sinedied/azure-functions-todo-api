@@ -15,6 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
+      - name: Check setup
+        run: |
+          if [ ! -z "${AZURE_CREDENTIALS}" ]; then
+            echo "HAS_SECRETS=true" >> "$GITHUB_ENV"
+          fi
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      - if: ${{ env.HAS_SECRETS }}
+        uses: andymckay/cancel-action@0.2
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -26,22 +35,12 @@ jobs:
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check setup
-        run: |
-          if [ ! -z "${AZURE_CREDENTIALS}" ]; then
-            echo "HAS_SECRETS=true" >> "$GITHUB_ENV"
-          fi
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      - if: ${{ env.HAS_SECRETS }}
-        uses: azure/login@v1
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - if: ${{ env.HAS_SECRETS }}
-        name: Create infrastructure
+      - name: Create infrastructure
         run: cd .azure/infra && ./infra.sh up ${{ env.APP_NAME }}
-      - if: ${{ env.HAS_SECRETS }}
-        name: Deploy project
+      - name: Deploy project
         run: cd .azure && ./deploy.sh
 
       # TODO: get app name exported from infra.sh
