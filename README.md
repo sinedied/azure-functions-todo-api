@@ -1,5 +1,8 @@
 # ✅ Todo API for Azure Functions
 
+[![Deploy on Azure](https://github.com/sinedied/azure-functions-todo-api/actions/workflows/deploy.yml/badge.svg)](https://github.com/sinedied/azure-functions-todo-api/actions/workflows/deploy.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 > Simple todo list API built with Azure Functions and Node.js.
 
 All entries are stored in-memory and are not persisted, so when the server is stopped all data is lost.
