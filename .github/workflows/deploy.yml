@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm ci
+      - run: cd api && npm ci
         env:
           CI: true
       - run: npx semantic-release
