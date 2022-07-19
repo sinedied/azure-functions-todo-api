@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Check setup
         run: |
-          if [ ! -z "${AZURE_CREDENTIALS}" ]; then
+          if [ -z "${AZURE_CREDENTIALS}" ]; then
             echo "CANCEL_DEPLOY=true" >> "$GITHUB_ENV"
           fi
         env:
