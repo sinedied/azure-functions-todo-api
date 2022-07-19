@@ -5,7 +5,6 @@
 ##############################################################################
 
 set -e
-set -u
 
 showUsage() {
   script_name="$(basename "$0")"
@@ -75,12 +74,20 @@ fi
 if [ "$terminate" = true ]; then
   echo "Deleting current setup..."
   infra/infra.sh down todo-api
-  gh secret delete AZURE_CREDENTIALS --app actions
+  echo "Retrieving GitHub repository URL..."
+  remote_repo=$(git config --get remote.origin.url)
+  gh secret delete AZURE_CREDENTIALS -R $remote_repo
   echo "Setup deleted."
 else
+  echo "Retrieving Azure subscription..."
   subscription_id=$(az account show --query id --output tsv --only-show-errors)
+  echo "Creating Azure service principal..."
   service_principal=$(az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$subscription_id" --sdk-auth --only-show-errors)
+  echo "Retrieving GitHub repository URL..."
   remote_repo=$(git config --get remote.origin.url)
+  echo "Setting up GitHub repository secrets..."
   gh secret set AZURE_CREDENTIALS -b"$service_principal" -R $remote_repo
-  # TODO: trigger a GHA deployment
+  echo "Triggering Azure deployment..."
+  gh workflow run deploy.yml
+  echo "Setup success!"
 fi
