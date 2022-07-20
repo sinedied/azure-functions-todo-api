@@ -12,10 +12,10 @@ All entries are stored in-memory and are not persisted, so when the server is st
 Route                                        | Description
 ---------------------------------------------|------------------------------------
 `GET    /api/`                               | Get server info
-`GET    /api/user/:userId/tasks`             | Get tasks for specified user, creating a new account if needed.
-`POST   /api/user/:userId/tasks`             | Add a new task for specified user, creating a new account if needed. Payload: `{ "description": "<task_description>" }`
-`PATCH  /api/user/:userId/tasks/:taskId`     | Update specified task. Payload: `{ "completed": <boolean> }`
-`DELETE /api/user/:userId/tasks/:taskId`     | Delete specified task
+`GET    /api/users/:userId/tasks`            | Get tasks for specified user, creating a new account if needed.
+`POST   /api/users/:userId/tasks`            | Add a new task for specified user, creating a new account if needed. Payload: `{ "description": "<task_description>" }`
+`PATCH  /api/users/:userId/tasks/:taskId`    | Update specified task. Payload: `{ "completed": <boolean> }`
+`DELETE /api/users/:userId/tasks/:taskId`    | Delete specified task
 
 ## Running the server locally
 
