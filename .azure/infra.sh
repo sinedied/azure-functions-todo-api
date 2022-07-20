@@ -35,7 +35,7 @@ elif [ "$1" == "up" ]; then
   # outputs=$( \
     az deployment group create \
     --resource-group ${resource_group_name} \
-    --template-file main.bicep \
+    --template-file infra/main.bicep \
     --name "deployment-${project_name}-${environment}-${location}" \
     --parameters projectName=${project_name} \
         environment=${environment} \
