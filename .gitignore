@@ -1,6 +1,7 @@
 node_modules
 local.settings.json
 dist
+.azure/*.env
+.version
 .DS_Store
 package.zip
-.version
