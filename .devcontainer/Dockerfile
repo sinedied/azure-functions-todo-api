@@ -8,7 +8,7 @@ ARG CORE_TOOLS_VERSION="4"
 ENV NVM_DIR="/usr/local/share/nvm" \
     NVM_SYMLINK_CURRENT=true \
     PATH="${NVM_DIR}/current/bin:${PATH}"
-RUN curl -sfL "https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/node-debian.sh" | bash "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" \
+RUN curl -sfL "https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/node-debian.sh" | bash -s -- "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" \
     && su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1" \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
     # && su vscode -c "umask 0002 && npm install --cache /tmp/empty-cache -g @azure/static-web-apps-cli" \
