@@ -14,6 +14,10 @@ export default async function (context, req) {
     return { headers, status: 400, body: 'Missing description' };
   }
 
+  if (typeof description !== 'string') {
+    return { headers, status: 400, body: 'Description must be a string' };
+  }
+
   const newTask = addTask(userId, description);
   context.log(`Added task ${newTask.id} for user ${userId}`);
 
