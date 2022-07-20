@@ -15,4 +15,5 @@ app_name=func-todo-api-prod-pavmt75fjq3kk
 # az functionapp deploy --resource-group ${resourceGroup} --name ${appName} --src-path package.zip --type zip --verbose
 
 cd ../api
+func azure functionapp fetch-app-settings ${app_name} --resource-group ${resource_group} --verbose
 func azure functionapp publish ${app_name} --resource-group ${resource_group} --verbose

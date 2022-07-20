@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "func start",
+    "start": "func start --javascript",
     "version": "echo sha.$(git rev-parse --short HEAD) > .version",
     "postinstall": "npm run version -s"
   }
