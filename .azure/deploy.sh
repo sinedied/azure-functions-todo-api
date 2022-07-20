@@ -17,10 +17,11 @@ fi
 environment="${environment:-prod}"
 environment="${1:-$environment}"
 
-if [ ! -f ".${environment}.env" ]; then
-  echo "Error: file '.${environment}.env' not found."
-  exit 1
-fi
+# if [ ! -f ".${environment}.env" ]; then
+#   echo "Error: file '.${environment}.env' not found."
+#   exit 1
+# fi
+# source ".${environment}.env"
 
 echo "Deploying environment '${environment}'..."
 cd ../api
