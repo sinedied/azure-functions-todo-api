@@ -10,8 +10,12 @@ export default async function (context, req) {
 
   const { completed } = req.body;
 
-  if (!completed) {
+  if (completed === undefined) {
     return { headers, status: 400, body: 'Missing completed' };
+  }
+
+  if (typeof completed !== 'boolean') {
+    return { headers, status: 400, body: 'Completed must be a boolean' };
   }
 
   try {
