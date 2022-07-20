@@ -2,20 +2,18 @@ name: Deploy on Azure
 
 on:
   workflow_dispatch:
-    branches:
-      - main
   push:
     branches:
       - main
 
 env:
   PROJECT_NAME: todo-api
-  NODE_VERSION: '16.x'
 
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    container: bluebuilder/azure:latest
     steps:
       - name: Check setup
         run: |
@@ -26,28 +24,16 @@ jobs:
           fi
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - run: cd api && npm ci
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: cd api && npm ci
         env:
           CI: true
-      - run: cd api && npx semantic-release
-        if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Create infrastructure
-        run: cd .azure/infra && ./infra.sh up ${{ env.PROJECT_NAME }}
+        run: cd .azure && ./infra.sh up ${{ env.PROJECT_NAME }}
       - name: Deploy project
         run: cd .azure && ./deploy.sh
-
-      # TODO: get app name exported from infra.sh
-      # - uses: Azure/functions-action@v1
-      #   with:
-      #     app-name: ${{ env.AZURE_FUNCTIONPROJECT_NAME }}
-      #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-
