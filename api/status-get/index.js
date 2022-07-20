@@ -7,7 +7,13 @@ export default async function (context, _req) {
   const stats = getStats();
   context.log(`Retrieved server stats`);
 
+  let version = 'dev';  
+  try {
+    version = await readFile(new URL('../.version', import.meta.url), 'utf-8');
+    version = version.trim();
+  } catch {}
+  
   return {
-    body: `${pkg.name} v${pkg.version} - ${stats.userCount} user(s), ${stats.taskCount} task(s)`
+    body: `${pkg.name} [${version}] - ${stats.userCount} user(s), ${stats.taskCount} task(s)`
   };
 }

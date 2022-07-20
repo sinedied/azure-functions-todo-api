@@ -3,3 +3,4 @@ local.settings.json
 dist
 .DS_Store
 package.zip
+.version
