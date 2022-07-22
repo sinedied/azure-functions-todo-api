@@ -71,12 +71,6 @@ if ! command -v az &> /dev/null; then
   exit 1
 fi
 
-if ! command -v gh &> /dev/null; then
-  echo "GitHub CLI not found."
-  echo "See https://cli.github.com for installation instructions."
-  exit 1
-fi
-
 if [ "$ci_login" = true ]; then
   echo "Logging in to Azure using \$AZURE_CREDENTIALS..."
   if [ -z "${AZURE_CREDENTIALS}" ]; then
@@ -96,6 +90,12 @@ if [ "$ci_login" = true ]; then
     --subscription "${subscription_id}"
   echo "Login successful."
   exit 0
+fi
+
+if ! command -v gh &> /dev/null; then
+  echo "GitHub CLI not found."
+  echo "See https://cli.github.com for installation instructions."
+  exit 1
 fi
 
 if [ -z "$project_name" ]; then
