@@ -86,8 +86,8 @@ if [ "$ci_login" = true ]; then
     --service-principal \
     --username "${client_id}" \
     --password "${client_secret}" \
-    --tenant "${tenant_id}" \
-    --subscription "${subscription_id}"
+    --tenant "${tenant_id}"
+  az account set --subscription "${subscription_id}"
   echo "Login successful."
   exit 0
 fi
