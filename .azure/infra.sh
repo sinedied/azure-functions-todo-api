@@ -101,4 +101,5 @@ elif [ "${subcommand}" == "env" ]; then
   createSettings "${outputs}"
 else
   showUsage
+  exit 1
 fi

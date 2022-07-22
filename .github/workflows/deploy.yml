@@ -21,6 +21,6 @@ jobs:
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Create infrastructure
-        run: cd .azure && ./infra.sh up
+        run: cd .azure && ./infra.sh create
       - name: Deploy project
         run: cd .azure && ./deploy.sh
