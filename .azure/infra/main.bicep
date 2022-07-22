@@ -114,5 +114,6 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
+output resourceGroupName string = resourceGroup().name
 output functionAppName string = functionApp.name
 output functionAppUrl string = functionApp.properties.defaultHostName

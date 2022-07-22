@@ -18,11 +18,13 @@ showUsage() {
   echo "Options:"
   echo "  -s, --skip-login    Skip Azure and GitHub login steps"
   echo "  -t, --terminate     Remove current setup and delete deployed resources"
+  echo "  -l, --ci-login      Only perform Azure CLI login using environment credentials"
   echo
 }
 
 skip_login=false
 terminate=false
+ci_login=false
 args=()
 
 while [[ $# -gt 0 ]]; do
@@ -33,6 +35,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     -t|--terminate)
       terminate=true
+      shift
+      ;;
+    -l|--ci-login)
+      ci_login=true
       shift
       ;;
     --help)
@@ -59,12 +65,6 @@ project_name="${1:-$project_name}"
 environment="${2:-$environment}"
 location="${3:-$location}"
 
-if [ -z "$project_name" ]; then
-  showUsage
-  echo "Error: project name is required."
-  exit 1
-fi
-
 if ! command -v az &> /dev/null; then
   echo "Azure CLI not found."
   echo "See https://aka.ms/tools/azure-cli for installation instructions."
@@ -74,6 +74,33 @@ fi
 if ! command -v gh &> /dev/null; then
   echo "GitHub CLI not found."
   echo "See https://cli.github.com for installation instructions."
+  exit 1
+fi
+
+if [ "$ci_login" = true ]; then
+  echo "Logging in to Azure using \$AZURE_CREDENTIALS..."
+  if [ -z "${AZURE_CREDENTIALS}" ]; then
+    echo "Azure credentials not found."
+    echo "Please run .azure/setup.sh locally to setup your deployment."
+    exit 1
+  fi
+  client_id="$(echo $AZURE_CREDENTIALS | jq -r .clientId)"
+  client_secret="$(echo $AZURE_CREDENTIALS | jq -r .clientSecret)"
+  subscription_id="$(echo $AZURE_CREDENTIALS | jq -r .subscriptionId)"
+  tenant_id="$(echo $AZURE_CREDENTIALS | jq -r .tenantId)"
+  az login \
+    --service-principal \
+    --username "${client_id}" \
+    --password "${client_secret}" \
+    --tenant "${tenant_id}" \
+    --subscription "${subscription_id}"
+  echo "Login successful."
+  exit 0
+fi
+
+if [ -z "$project_name" ]; then
+  showUsage
+  echo "Error: project name is required."
   exit 1
 fi
 
